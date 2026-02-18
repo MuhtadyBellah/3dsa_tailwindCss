@@ -1,0 +1,21 @@
+@reference "../../../styles.css"; /* Adjust the path to your main global CSS file */
+
+nav.scrolled {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.active-nav-link {
+  @apply bg-linear-to-r from-orange-500 to-orange-600 text-white;
+}
+
+.active-mobile-nav-link {
+  @apply bg-orange-500/10 text-orange-500 border border-orange-500/30;
+}
+
+.mobile-menu {
+  @apply overflow-hidden transition-all duration-300;
+}
+
+nav {
+  will-change: background-color, border-color, box-shadow;
+}

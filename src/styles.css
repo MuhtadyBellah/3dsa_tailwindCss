@@ -1,3 +1,92 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "tailwindcss";
+
+/* Gradient Text Effect */
+.gradient-text {
+  @apply bg-gradient-to-r from-orange-500 to-yellow-500 bg-clip-text text-transparent;
+}
+
+/* Glass Card Effect */
+.glass-card {
+  @apply bg-[#161616] rounded-2xl border border-[#262626] backdrop-blur-sm p-6 transition-all duration-300 hover:border-orange-500/30;
+}
+
+/* Primary Button */
+.btn-primary {
+  @apply px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-300 hover:shadow-lg hover:shadow-orange-500/20;
+}
+
+/* Secondary Button */
+.btn-secondary {
+  @apply px-8 py-4 bg-[#161616] text-white font-semibold rounded-xl border border-[#262626] hover:border-orange-500/50 transition-all duration-300 hover:bg-[#1a1a1a];
+}
+
+/* Section Label */
+.section-label {
+  @apply inline-flex items-center gap-2 px-4 py-2 bg-orange-500/10 rounded-full border border-orange-500/20 text-orange-500 text-sm font-semibold;
+}
+
+/* Section Title */
+.section-title {
+  @apply text-4xl md:text-5xl font-bold tracking-tight;
+}
+
+/* Section Subtitle */
+.section-subtitle {
+  @apply text-neutral-400 text-lg mt-2;
+}
+
+/* Card Component */
+.card {
+  @apply bg-[#161616] rounded-3xl border border-[#262626] overflow-hidden hover:border-orange-500/30 transition-all duration-500;
+}
+
+/* Animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float-blob {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+.blob {
+  animation: float-blob 8s ease-in-out infinite;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Remove default input styles */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}

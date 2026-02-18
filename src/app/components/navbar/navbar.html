@@ -1,9 +1,11 @@
 <nav
+  [class.scrolled]="isScrolled"
   class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-[#0a0a0a]/95 backdrop-blur-xl border-b border-transparent"
+  [ngClass]="{ 'bg-[#0a0a0a] border-[#262626]': isScrolled }"
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-20">
-      <a class="flex items-center gap-3 group" href="/" data-discover="true"
+      <a class="flex items-center gap-3 group" routerLink="/home" data-discover="true"
         ><div
           class="relative w-12 h-12 rounded-xl overflow-hidden group-hover:scale-105 transition-all duration-300"
         >
@@ -25,19 +27,21 @@
       <div class="hidden md:flex items-center">
         <div class="flex items-center bg-[#161616] rounded-full p-1.5 border border-[#262626]">
           <a
-            class="px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 bg-linear-to-r from-orange-500 to-orange-600 text-white"
-            href="/"
+            routerLink="/home"
+            routerLinkActive="active-nav-link"
+            class="px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 text-neutral-400 hover:text-white"
             data-discover="true"
-            aria-current="page"
             >الرئيسية</a
           ><a
+            routerLink="/blog"
+            routerLinkActive="active-nav-link"
             class="px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 text-neutral-400 hover:text-white"
-            href="/blog"
             data-discover="true"
             >المدونة</a
           ><a
+            routerLink="/about"
+            routerLinkActive="active-nav-link"
             class="px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 text-neutral-400 hover:text-white"
-            href="/about"
             data-discover="true"
             >من نحن</a
           >
@@ -56,9 +60,10 @@
               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
             ></path>
           </svg></button
-        ><a class="btn-primary text-sm" href="/blog" data-discover="true">ابدأ القراءة</a>
+        ><a class="btn-primary text-sm" routerLink="/blog" data-discover="true">ابدأ القراءة</a>
       </div>
       <button
+        (click)="toggleMobileMenu()"
         class="md:hidden p-3 text-neutral-400 hover:text-white hover:bg-[#161616] rounded-xl transition-all duration-300 border border-transparent hover:border-[#262626]"
       >
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -71,26 +76,31 @@
         </svg>
       </button>
     </div>
-    <div class="md:hidden overflow-hidden transition-all duration-300 max-h-0">
+    <div
+      class="md:hidden overflow-hidden transition-all duration-300"
+      [ngClass]="{ 'max-h-96': mobileMenuOpen, 'max-h-0': !mobileMenuOpen }"
+    >
       <div class="bg-[#161616] backdrop-blur-xl rounded-2xl p-4 border border-[#262626]">
         <div class="flex flex-col space-y-1">
           <a
-            class="px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 bg-orange-500/10 text-orange-500 border border-orange-500/30"
-            href="/"
+            routerLink="/home"
+            routerLinkActive="active-mobile-nav-link"
+            class="px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 text-neutral-400 hover:bg-[#1a1a1a] hover:text-white"
             data-discover="true"
-            aria-current="page"
             >الرئيسية</a
           ><a
+            routerLink="/blog"
+            routerLinkActive="active-mobile-nav-link"
             class="px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 text-neutral-400 hover:bg-[#1a1a1a] hover:text-white"
-            href="/blog"
             data-discover="true"
             >المدونة</a
           ><a
+            routerLink="/about"
+            routerLinkActive="active-mobile-nav-link"
             class="px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 text-neutral-400 hover:bg-[#1a1a1a] hover:text-white"
-            href="/about"
             data-discover="true"
             >من نحن</a
-          ><a class="btn-primary text-sm text-center mt-2" href="/blog" data-discover="true"
+          ><a class="btn-primary text-sm text-center mt-2" routerLink="/blog" data-discover="true"
             >ابدأ القراءة</a
           >
         </div>
