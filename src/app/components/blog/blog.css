@@ -1,0 +1,11 @@
+@reference "../../../styles.css"; /* Adjust the path to your main global CSS file */
+
+/* List view styling */
+.card-list {
+  @apply rounded-2xl border border-[#262626] bg-[#161616] transition-all duration-300 hover:border-orange-500/30 overflow-hidden;
+}
+
+/* Grid view article card (default) */
+.card {
+  @apply rounded-2xl border border-[#262626] bg-[#161616] transition-all duration-300 hover:border-orange-500/30 overflow-hidden;
+}
