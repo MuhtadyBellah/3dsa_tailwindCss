@@ -2,7 +2,7 @@
   <div class="relative py-20 overflow-hidden">
     <div class="absolute inset-0 bg-[#0a0a0a]"></div>
     <div
-      class="absolute inset-0 bg-[linear-gradient(rgba(38,38,38,0.5)_1px,transparent_1px),linear-gradient(90deg,rgba(38,38,38,0.5)_1px,transparent_1px)] bg-[size:60px_60px]"
+      class="absolute inset-0 bg-[linear-gradient(rgba(38,38,38,0.5)_1px,transparent_1px),linear-gradient(90deg,rgba(38,38,38,0.5)_1px,transparent_1px)] bg-size-[60px_60px]"
     ></div>
     <div class="absolute inset-0">
       <div class="absolute top-0 left-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl"></div>
@@ -55,36 +55,20 @@
         </div>
         <div class="flex flex-wrap justify-center gap-2">
           <button
-            class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 bg-gradient-to-r from-orange-500 to-orange-600 text-white"
+            class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 bg-linear-to-r from-orange-500 to-orange-600 text-white"
             fdprocessedid="fsb7a8"
           >
-            جميع المقالات</button
-          ><button
-            class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 bg-[#161616] text-neutral-400 border border-[#262626] hover:border-orange-500/30"
-            fdprocessedid="fyvre"
-          >
-            إضاءة</button
-          ><button
-            class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 bg-[#161616] text-neutral-400 border border-[#262626] hover:border-orange-500/30"
-            fdprocessedid="yi3r1"
-          >
-            بورتريه</button
-          ><button
-            class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 bg-[#161616] text-neutral-400 border border-[#262626] hover:border-orange-500/30"
-            fdprocessedid="smxipf"
-          >
-            مناظر طبيعية</button
-          ><button
-            class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 bg-[#161616] text-neutral-400 border border-[#262626] hover:border-orange-500/30"
-            fdprocessedid="4mpcl"
-          >
-            تقنيات</button
-          ><button
-            class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 bg-[#161616] text-neutral-400 border border-[#262626] hover:border-orange-500/30"
-            fdprocessedid="gk4tvq"
-          >
-            معدات
+            جميع المقالات
           </button>
+
+          @for (cat of categories; track cat.name) {
+            <button
+              class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 bg-[#161616] text-neutral-400 border border-[#262626] hover:border-orange-500/30"
+              fdprocessedid="fyvre"
+            >
+              {{ cat.name }}
+            </button>
+          }
         </div>
       </div>
     </div>
@@ -125,433 +109,80 @@
       </div>
     </div>
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <article class="group card overflow-hidden" style="animation-delay: 0ms">
-        <a class="block" href="/blog/mastering-golden-hour-photography" data-discover="true"
-          ><div class="relative h-52 overflow-hidden">
-            <img
-              alt="إتقان تصوير الساعة الذهبية: دليل شامل"
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-              src="https://images.unsplash.com/photo-1500835556837-99ac94a94552?w=800&amp;h=400&amp;fit=crop"
-            />
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            ></div>
-            <div class="absolute top-4 right-4">
-              <span
-                class="px-3 py-1 bg-[#0a0a0a]/80 backdrop-blur-sm text-white text-xs font-semibold rounded-full border border-[#333333]"
-                >إضاءة</span
-              >
-            </div>
-          </div>
-          <div class="p-6">
-            <div class="flex items-center gap-3 text-sm text-neutral-500 mb-3">
-              <span class="flex items-center gap-1"
-                ><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path></svg
-                >8 دقائق للقراءة</span
-              ><span class="w-1 h-1 bg-neutral-600 rounded-full"></span><span>١٥ يناير ٢٠٢٦</span>
-            </div>
-            <h3
-              class="text-xl font-bold text-white mb-3 group-hover:text-orange-500 transition-colors duration-300 line-clamp-2 leading-tight"
-            >
-              إتقان تصوير الساعة الذهبية: دليل شامل
-            </h3>
-            <p class="text-neutral-400 mb-5 line-clamp-2 text-sm leading-relaxed">
-              تعلم كيفية التقاط صور مذهلة خلال الساعة الذهبية مع نصائح احترافية حول الإضاءة
-              والتكوين.
-            </p>
-            <div class="flex items-center justify-between pt-4 border-t border-[#262626]">
-              <div class="flex items-center gap-3">
-                <img
-                  alt="سالم أحمد"
-                  class="w-9 h-9 rounded-full object-cover ring-2 ring-[#262626]"
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&amp;h=100&amp;fit=crop&amp;crop=face"
-                />
-                <div>
-                  <p class="text-sm font-medium text-white">سالم أحمد</p>
-                  <p class="text-xs text-neutral-500">مصور محترف</p>
-                </div>
-              </div>
+      @for (post of filteredPosts; track post.id) {
+        <article class="group card overflow-hidden" style="animation-delay: 0ms">
+          <a class="block" href="/blog/{{ post.slug }}" data-discover="true"
+            ><div class="relative h-52 overflow-hidden">
+              <img
+                alt="{{ post.title }}"
+                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                src="{{ post.image }}"
+              />
               <div
-                class="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500 transition-colors duration-300 border border-orange-500/20 group-hover:border-transparent"
-              >
-                <svg
-                  class="w-4 h-4 text-orange-500 group-hover:text-white transition-colors duration-300 rotate-180"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+                class="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              ></div>
+              <div class="absolute top-4 right-4">
+                <span
+                  class="px-3 py-1 bg-[#0a0a0a]/80 backdrop-blur-sm text-white text-xs font-semibold rounded-full border border-[#333333]"
+                  >{{ post.category }}</span
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  ></path>
-                </svg>
               </div>
-            </div></div
-        ></a>
-      </article>
-      <article class="group card overflow-hidden" style="animation-delay: 100ms">
-        <a class="block" href="/blog/portrait-photography-secrets" data-discover="true"
-          ><div class="relative h-52 overflow-hidden">
-            <img
-              alt="أسرار تصوير البورتريه: كيف تلتقط روح الشخصية"
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&amp;h=400&amp;fit=crop"
-            />
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            ></div>
-            <div class="absolute top-4 right-4">
-              <span
-                class="px-3 py-1 bg-[#0a0a0a]/80 backdrop-blur-sm text-white text-xs font-semibold rounded-full border border-[#333333]"
-                >بورتريه</span
+            </div>
+            <div class="p-6">
+              <div class="flex items-center gap-3 text-sm text-neutral-500 mb-3">
+                <span class="flex items-center gap-1"
+                  ><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path></svg
+                  >{{ post.readTime }}</span
+                ><span class="w-1 h-1 bg-neutral-600 rounded-full"></span
+                ><span>{{ post.date }}</span>
+              </div>
+              <h3
+                class="text-xl font-bold text-white mb-3 group-hover:text-orange-500 transition-colors duration-300 line-clamp-2 leading-tight"
               >
-            </div>
-          </div>
-          <div class="p-6">
-            <div class="flex items-center gap-3 text-sm text-neutral-500 mb-3">
-              <span class="flex items-center gap-1"
-                ><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path></svg
-                >6 دقائق للقراءة</span
-              ><span class="w-1 h-1 bg-neutral-600 rounded-full"></span><span>١٢ يناير ٢٠٢٦</span>
-            </div>
-            <h3
-              class="text-xl font-bold text-white mb-3 group-hover:text-orange-500 transition-colors duration-300 line-clamp-2 leading-tight"
-            >
-              أسرار تصوير البورتريه: كيف تلتقط روح الشخصية
-            </h3>
-            <p class="text-neutral-400 mb-5 line-clamp-2 text-sm leading-relaxed">
-              اكتشف تقنيات احترافية لتصوير بورتريهات تعبيرية تكشف عن شخصية الموضوع الحقيقية.
-            </p>
-            <div class="flex items-center justify-between pt-4 border-t border-[#262626]">
-              <div class="flex items-center gap-3">
-                <img
-                  alt="محمد علي"
-                  class="w-9 h-9 rounded-full object-cover ring-2 ring-[#262626]"
-                  src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&amp;h=100&amp;fit=crop&amp;crop=face"
-                />
-                <div>
-                  <p class="text-sm font-medium text-white">محمد علي</p>
-                  <p class="text-xs text-neutral-500">مصور بورتريه</p>
+                {{ post.title }}
+              </h3>
+              <p class="text-neutral-400 mb-5 line-clamp-2 text-sm leading-relaxed">
+                {{ post.excerpt }}
+              </p>
+              <div class="flex items-center justify-between pt-4 border-t border-[#262626]">
+                <div class="flex items-center gap-3">
+                  <img
+                    alt="{{ post.author.name }}"
+                    class="w-9 h-9 rounded-full object-cover ring-2 ring-[#262626]"
+                    src="{{ post.author.avatar }}"
+                  />
+                  <div>
+                    <p class="text-sm font-medium text-white">{{ post.author.name }}</p>
+                    <p class="text-xs text-neutral-500">{{ post.author.role }}</p>
+                  </div>
                 </div>
-              </div>
-              <div
-                class="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500 transition-colors duration-300 border border-orange-500/20 group-hover:border-transparent"
-              >
-                <svg
-                  class="w-4 h-4 text-orange-500 group-hover:text-white transition-colors duration-300 rotate-180"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+                <div
+                  class="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500 transition-colors duration-300 border border-orange-500/20 group-hover:border-transparent"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  ></path>
-                </svg>
-              </div>
-            </div></div
-        ></a>
-      </article>
-      <article class="group card overflow-hidden" style="animation-delay: 200ms">
-        <a class="block" href="/blog/landscape-photography-guide" data-discover="true"
-          ><div class="relative h-52 overflow-hidden">
-            <img
-              alt="دليل تصوير المناظر الطبيعية: من المبتدئ إلى المحترف"
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-              src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&amp;h=400&amp;fit=crop"
-            />
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            ></div>
-            <div class="absolute top-4 right-4">
-              <span
-                class="px-3 py-1 bg-[#0a0a0a]/80 backdrop-blur-sm text-white text-xs font-semibold rounded-full border border-[#333333]"
-                >مناظر طبيعية</span
-              >
-            </div>
-          </div>
-          <div class="p-6">
-            <div class="flex items-center gap-3 text-sm text-neutral-500 mb-3">
-              <span class="flex items-center gap-1"
-                ><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path></svg
-                >10 دقائق للقراءة</span
-              ><span class="w-1 h-1 bg-neutral-600 rounded-full"></span><span>١٠ يناير ٢٠٢٦</span>
-            </div>
-            <h3
-              class="text-xl font-bold text-white mb-3 group-hover:text-orange-500 transition-colors duration-300 line-clamp-2 leading-tight"
-            >
-              دليل تصوير المناظر الطبيعية: من المبتدئ إلى المحترف
-            </h3>
-            <p class="text-neutral-400 mb-5 line-clamp-2 text-sm leading-relaxed">
-              استكشف تقنيات تصوير المناظر الطبيعية الخلابة وكيفية التقاط جمال الطبيعة بعدستك.
-            </p>
-            <div class="flex items-center justify-between pt-4 border-t border-[#262626]">
-              <div class="flex items-center gap-3">
-                <img
-                  alt="إبراهيم حسن"
-                  class="w-9 h-9 rounded-full object-cover ring-2 ring-[#262626]"
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&amp;h=100&amp;fit=crop&amp;crop=face"
-                />
-                <div>
-                  <p class="text-sm font-medium text-white">إبراهيم حسن</p>
-                  <p class="text-xs text-neutral-500">مصور طبيعة</p>
+                  <svg
+                    class="w-4 h-4 text-orange-500 group-hover:text-white transition-colors duration-300 rotate-180"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5l7 7-7 7"
+                    ></path>
+                  </svg>
                 </div>
-              </div>
-              <div
-                class="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500 transition-colors duration-300 border border-orange-500/20 group-hover:border-transparent"
-              >
-                <svg
-                  class="w-4 h-4 text-orange-500 group-hover:text-white transition-colors duration-300 rotate-180"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  ></path>
-                </svg>
-              </div>
-            </div></div
-        ></a>
-      </article>
-      <article class="group card overflow-hidden" style="animation-delay: 300ms">
-        <a class="block" href="/blog/camera-settings-basics" data-discover="true"
-          ><div class="relative h-52 overflow-hidden">
-            <img
-              alt="أساسيات إعدادات الكاميرا: مثلث التعريض الضوئي"
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-              src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&amp;h=400&amp;fit=crop"
-            />
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            ></div>
-            <div class="absolute top-4 right-4">
-              <span
-                class="px-3 py-1 bg-[#0a0a0a]/80 backdrop-blur-sm text-white text-xs font-semibold rounded-full border border-[#333333]"
-                >تقنيات</span
-              >
-            </div>
-          </div>
-          <div class="p-6">
-            <div class="flex items-center gap-3 text-sm text-neutral-500 mb-3">
-              <span class="flex items-center gap-1"
-                ><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path></svg
-                >7 دقائق للقراءة</span
-              ><span class="w-1 h-1 bg-neutral-600 rounded-full"></span><span>٨ يناير ٢٠٢٦</span>
-            </div>
-            <h3
-              class="text-xl font-bold text-white mb-3 group-hover:text-orange-500 transition-colors duration-300 line-clamp-2 leading-tight"
-            >
-              أساسيات إعدادات الكاميرا: مثلث التعريض الضوئي
-            </h3>
-            <p class="text-neutral-400 mb-5 line-clamp-2 text-sm leading-relaxed">
-              افهم العلاقة بين فتحة العدسة وسرعة الغالق وحساسية ISO للتحكم الكامل في صورك.
-            </p>
-            <div class="flex items-center justify-between pt-4 border-t border-[#262626]">
-              <div class="flex items-center gap-3">
-                <img
-                  alt="داود خالد"
-                  class="w-9 h-9 rounded-full object-cover ring-2 ring-[#262626]"
-                  src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&amp;h=100&amp;fit=crop&amp;crop=face"
-                />
-                <div>
-                  <p class="text-sm font-medium text-white">داود خالد</p>
-                  <p class="text-xs text-neutral-500">مدرب تصوير</p>
-                </div>
-              </div>
-              <div
-                class="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500 transition-colors duration-300 border border-orange-500/20 group-hover:border-transparent"
-              >
-                <svg
-                  class="w-4 h-4 text-orange-500 group-hover:text-white transition-colors duration-300 rotate-180"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  ></path>
-                </svg>
-              </div>
-            </div></div
-        ></a>
-      </article>
-      <article class="group card overflow-hidden" style="animation-delay: 400ms">
-        <a class="block" href="/blog/photo-composition-rules" data-discover="true"
-          ><div class="relative h-52 overflow-hidden">
-            <img
-              alt="قواعد التكوين الفوتوغرافي: كيف تجعل صورك أكثر جاذبية"
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-              src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=800&amp;h=400&amp;fit=crop"
-            />
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            ></div>
-            <div class="absolute top-4 right-4">
-              <span
-                class="px-3 py-1 bg-[#0a0a0a]/80 backdrop-blur-sm text-white text-xs font-semibold rounded-full border border-[#333333]"
-                >تقنيات</span
-              >
-            </div>
-          </div>
-          <div class="p-6">
-            <div class="flex items-center gap-3 text-sm text-neutral-500 mb-3">
-              <span class="flex items-center gap-1"
-                ><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path></svg
-                >9 دقائق للقراءة</span
-              ><span class="w-1 h-1 bg-neutral-600 rounded-full"></span><span>٥ يناير ٢٠٢٦</span>
-            </div>
-            <h3
-              class="text-xl font-bold text-white mb-3 group-hover:text-orange-500 transition-colors duration-300 line-clamp-2 leading-tight"
-            >
-              قواعد التكوين الفوتوغرافي: كيف تجعل صورك أكثر جاذبية
-            </h3>
-            <p class="text-neutral-400 mb-5 line-clamp-2 text-sm leading-relaxed">
-              تعلم قواعد التكوين الأساسية التي يستخدمها المصورون المحترفون لإنشاء صور مؤثرة بصرياً.
-            </p>
-            <div class="flex items-center justify-between pt-4 border-t border-[#262626]">
-              <div class="flex items-center gap-3">
-                <img
-                  alt="ليث محمود"
-                  class="w-9 h-9 rounded-full object-cover ring-2 ring-[#262626]"
-                  src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&amp;h=100&amp;fit=crop&amp;crop=face"
-                />
-                <div>
-                  <p class="text-sm font-medium text-white">ليث محمود</p>
-                  <p class="text-xs text-neutral-500">فنان بصري</p>
-                </div>
-              </div>
-              <div
-                class="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500 transition-colors duration-300 border border-orange-500/20 group-hover:border-transparent"
-              >
-                <svg
-                  class="w-4 h-4 text-orange-500 group-hover:text-white transition-colors duration-300 rotate-180"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  ></path>
-                </svg>
-              </div>
-            </div></div
-        ></a>
-      </article>
-      <article class="group card overflow-hidden" style="animation-delay: 500ms">
-        <a class="block" href="/blog/mobile-photography-tips" data-discover="true"
-          ><div class="relative h-52 overflow-hidden">
-            <img
-              alt="تصوير الهاتف المحمول: كيف تلتقط صوراً احترافية بهاتفك"
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-              src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&amp;h=400&amp;fit=crop"
-            />
-            <div
-              class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            ></div>
-            <div class="absolute top-4 right-4">
-              <span
-                class="px-3 py-1 bg-[#0a0a0a]/80 backdrop-blur-sm text-white text-xs font-semibold rounded-full border border-[#333333]"
-                >معدات</span
-              >
-            </div>
-          </div>
-          <div class="p-6">
-            <div class="flex items-center gap-3 text-sm text-neutral-500 mb-3">
-              <span class="flex items-center gap-1"
-                ><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path></svg
-                >8 دقائق للقراءة</span
-              ><span class="w-1 h-1 bg-neutral-600 rounded-full"></span><span>٣ يناير ٢٠٢٦</span>
-            </div>
-            <h3
-              class="text-xl font-bold text-white mb-3 group-hover:text-orange-500 transition-colors duration-300 line-clamp-2 leading-tight"
-            >
-              تصوير الهاتف المحمول: كيف تلتقط صوراً احترافية بهاتفك
-            </h3>
-            <p class="text-neutral-400 mb-5 line-clamp-2 text-sm leading-relaxed">
-              اكتشف كيف تحول هاتفك الذكي إلى أداة تصوير قوية مع هذه النصائح والتقنيات.
-            </p>
-            <div class="flex items-center justify-between pt-4 border-t border-[#262626]">
-              <div class="flex items-center gap-3">
-                <img
-                  alt="جمال عبدالله"
-                  class="w-9 h-9 rounded-full object-cover ring-2 ring-[#262626]"
-                  src="https://images.unsplash.com/photo-1463453091185-61582044d556?w=100&amp;h=100&amp;fit=crop&amp;crop=face"
-                />
-                <div>
-                  <p class="text-sm font-medium text-white">جمال عبدالله</p>
-                  <p class="text-xs text-neutral-500">مصور ومراجع تقني</p>
-                </div>
-              </div>
-              <div
-                class="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500 transition-colors duration-300 border border-orange-500/20 group-hover:border-transparent"
-              >
-                <svg
-                  class="w-4 h-4 text-orange-500 group-hover:text-white transition-colors duration-300 rotate-180"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  ></path>
-                </svg>
-              </div>
-            </div></div
-        ></a>
-      </article>
+              </div></div
+          ></a>
+        </article>
+      }
     </div>
     <div class="flex justify-center items-center gap-2 mt-12">
       <button
@@ -569,7 +200,7 @@
       </button>
       <div class="flex items-center gap-1">
         <button
-          class="min-w-[44px] h-11 rounded-xl text-sm font-medium transition-all duration-300 bg-gradient-to-r from-orange-500 to-orange-600 text-white"
+          class="min-w-[44px] h-11 rounded-xl text-sm font-medium transition-all duration-300 bg-linear-to-r from-orange-500 to-orange-600 text-white"
           fdprocessedid="fpwr3f"
         >
           1</button
