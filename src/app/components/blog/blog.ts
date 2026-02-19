@@ -8,9 +8,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './blog.css',
 })
 export class Blog {
-  viewMode = signal<'grid' | 'list'>('grid');
+  viewMode: 'grid' | 'list' = 'grid';
 
   toggleViewMode(mode: 'grid' | 'list'): void {
-    this.viewMode.set(mode);
+    this.viewMode = mode;
   }
 }
