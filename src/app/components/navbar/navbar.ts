@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -8,23 +8,34 @@ import { RouterModule } from '@angular/router';
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
-export class Navbar implements OnInit, OnDestroy {
-  isScrolled = false;
-  mobileMenuOpen = false;
+export class Navbar {
+  isScrolled = signal(false);
+  mobileMenuOpen = signal(false);
 
-  ngOnInit(): void {
-    window.addEventListener('scroll', this.onScroll.bind(this));
+  private scrollListener = this.onScroll.bind(this);
+
+  constructor() {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', this.scrollListener);
+    }
+
+    effect(
+      () => {
+        return () => {
+          if (typeof window !== 'undefined') {
+            window.removeEventListener('scroll', this.scrollListener);
+          }
+        };
+      },
+      { allowSignalWrites: true }
+    );
   }
 
-  ngOnDestroy(): void {
-    window.removeEventListener('scroll', this.onScroll.bind(this));
-  }
-
-  onScroll(): void {
-    this.isScrolled = window.scrollY > 50;
+  private onScroll(): void {
+    this.isScrolled.set(window.scrollY > 50);
   }
 
   toggleMobileMenu(): void {
-    this.mobileMenuOpen = !this.mobileMenuOpen;
+    this.mobileMenuOpen.set(!this.mobileMenuOpen());
   }
 }

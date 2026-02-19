@@ -32,13 +32,13 @@
   <div class="sticky top-20 z-40 bg-[#0a0a0a]/90 backdrop-blur-xl border-b border-[#262626]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
       <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-        <div class="relative w-full md:w-80">
+        <div class="relative w-full md:w-80 bg-gray-500 rounded-xl">
           <input
             placeholder="ابحث في المقالات..."
             class="input-dark w-full px-5 py-3 pr-12"
             type="text"
-            value=""
-            fdprocessedid="j7wfxxt"
+            [(ngModel)]="searchQuery"
+            (ngModelChange)="onSearchChange($event)"
           /><svg
             class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-500"
             fill="none"
@@ -55,16 +55,26 @@
         </div>
         <div class="flex flex-wrap justify-center gap-2">
           <button
-            class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 bg-linear-to-r from-orange-500 to-orange-600 text-white"
-            fdprocessedid="fsb7a8"
+            (click)="filterByCategory('')"
+            [class]="
+              'px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300' +
+              (selectedCategory() === ''
+                ? ' bg-linear-to-r from-orange-500 to-orange-600 text-white'
+                : ' bg-[#161616] text-neutral-400 border border-[#262626] hover:border-orange-500/30')
+            "
           >
             جميع المقالات
           </button>
 
-          @for (cat of categories; track cat.name) {
+          @for (cat of categories(); track cat.name) {
             <button
-              class="px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 bg-[#161616] text-neutral-400 border border-[#262626] hover:border-orange-500/30"
-              fdprocessedid="fyvre"
+              (click)="filterByCategory(cat.name)"
+              [class]="
+                'px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300' +
+                (selectedCategory() === cat.name
+                  ? ' bg-linear-to-r from-orange-500 to-orange-600 text-white'
+                  : ' bg-[#161616] text-neutral-400 border border-[#262626] hover:border-orange-500/30')
+              "
             >
               {{ cat.name }}
             </button>
@@ -75,13 +85,20 @@
   </div>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 scroll-mt-[146px]">
     <div class="mb-8 flex items-center justify-between">
-      <p class="text-neutral-400">عرض <span class="font-bold text-white">28</span> مقالات</p>
+      <p class="text-neutral-400">
+        عرض <span class="font-bold text-white">{{ filteredPosts().length }}</span> مقالات
+      </p>
       <div class="flex items-center gap-2">
         <div class="flex items-center bg-[#161616] border border-[#262626] rounded-xl p-1">
           <button
-            class="p-2 rounded-lg transition-all duration-300 bg-orange-500 text-white"
+            (click)="toggleViewMode('grid')"
+            [class]="
+              'p-2 rounded-lg transition-all duration-300' +
+              (viewMode() === 'grid'
+                ? ' bg-orange-500 text-white'
+                : ' text-neutral-400 hover:text-white')
+            "
             title="عرض شبكي"
-            fdprocessedid="8o3xis"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -92,9 +109,14 @@
               ></path>
             </svg></button
           ><button
-            class="p-2 rounded-lg transition-all duration-300 text-neutral-400 hover:text-white"
+            (click)="toggleViewMode('list')"
+            [class]="
+              'p-2 rounded-lg transition-all duration-300' +
+              (viewMode() === 'list'
+                ? ' bg-orange-500 text-white'
+                : ' text-neutral-400 hover:text-white')
+            "
             title="عرض قائمة"
-            fdprocessedid="aqxucp"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -108,15 +130,32 @@
         </div>
       </div>
     </div>
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      @for (post of filteredPosts; track post.id) {
-        <article class="group card overflow-hidden" style="animation-delay: 0ms">
-          <a class="block" href="/blog/{{ post.slug }}" data-discover="true"
-            ><div class="relative h-52 overflow-hidden">
+    <div
+      [class]="
+        viewMode() === 'grid' ? 'grid md:grid-cols-2 lg:grid-cols-3 gap-8' : 'flex flex-col gap-6'
+      "
+    >
+      @for (post of paginatedPosts(); track post.id) {
+        <article
+          class="group card overflow-hidden bg-[#161616] border border-[#262626] rounded-2xl hover:border-orange-500/30 transition-all duration-300"
+          style="animation-delay: 0ms"
+        >
+          <a
+            [href]="'/blog/' + post.slug"
+            data-discover="true"
+            [class]="viewMode() === 'list' ? 'flex flex-col md:flex-row' : 'block'"
+          >
+            <div
+              [class]="
+                viewMode() === 'list'
+                  ? 'relative md:w-1/3 h-52 md:h-auto overflow-hidden shrink-0'
+                  : 'relative h-52 overflow-hidden'
+              "
+            >
               <img
-                alt="{{ post.title }}"
+                [alt]="post.title"
                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                src="{{ post.image }}"
+                [src]="post.image"
               />
               <div
                 class="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -124,36 +163,45 @@
               <div class="absolute top-4 right-4">
                 <span
                   class="px-3 py-1 bg-[#0a0a0a]/80 backdrop-blur-sm text-white text-xs font-semibold rounded-full border border-[#333333]"
-                  >{{ post.category }}</span
                 >
+                  {{ post.category }}
+                </span>
               </div>
             </div>
-            <div class="p-6">
+
+            <div
+              [class]="viewMode() === 'list' ? 'p-6 flex-1 flex flex-col justify-center' : 'p-6'"
+            >
               <div class="flex items-center gap-3 text-sm text-neutral-500 mb-3">
-                <span class="flex items-center gap-1"
-                  ><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span class="flex items-center gap-1">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
                       stroke-width="2"
                       d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                    ></path></svg
-                  >{{ post.readTime }}</span
-                ><span class="w-1 h-1 bg-neutral-600 rounded-full"></span
-                ><span>{{ post.date }}</span>
+                    ></path>
+                  </svg>
+                  {{ post.readTime }}
+                </span>
+                <span class="w-1 h-1 bg-neutral-600 rounded-full"></span>
+                <span>{{ post.date }}</span>
               </div>
+
               <h3
                 class="text-xl font-bold text-white mb-3 group-hover:text-orange-500 transition-colors duration-300 line-clamp-2 leading-tight"
               >
                 {{ post.title }}
               </h3>
+
               <p class="text-neutral-400 mb-5 line-clamp-2 text-sm leading-relaxed">
                 {{ post.excerpt }}
               </p>
-              <div class="flex items-center justify-between pt-4 border-t border-[#262626]">
+
+              <div class="flex items-center justify-between pt-4 border-t border-[#262626] mt-auto">
                 <div class="flex items-center gap-3">
                   <img
-                    alt="{{ post.author.name }}"
+                    [alt]="post.author.name"
                     class="w-9 h-9 rounded-full object-cover ring-2 ring-[#262626]"
                     src="{{ post.author.avatar }}"
                   />
@@ -179,67 +227,76 @@
                     ></path>
                   </svg>
                 </div>
-              </div></div
-          ></a>
+              </div>
+            </div>
+          </a>
         </article>
       }
     </div>
-    <div class="flex justify-center items-center gap-2 mt-12">
-      <button
-        disabled=""
-        class="p-3 rounded-xl border transition-all duration-300 bg-[#0a0a0a] border-[#262626] text-neutral-600 cursor-not-allowed"
-      >
-        <svg class="w-5 h-5 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M15 19l-7-7 7-7"
-          ></path>
-        </svg>
-      </button>
-      <div class="flex items-center gap-1">
+    @if (totalPages() > 1) {
+      <div class="flex justify-center items-center gap-2 mt-12">
         <button
-          class="min-w-[44px] h-11 rounded-xl text-sm font-medium transition-all duration-300 bg-linear-to-r from-orange-500 to-orange-600 text-white"
-          fdprocessedid="fpwr3f"
+          (click)="goToPreviousPage()"
+          [disabled]="currentPage() === 1"
+          [class]="
+            'p-3 rounded-xl border transition-all duration-300' +
+            (currentPage() === 1
+              ? ' bg-[#0a0a0a] border-[#262626] text-neutral-600 cursor-not-allowed'
+              : ' bg-[#161616] border-[#262626] text-white hover:border-orange-500/50 hover:bg-[#1a1a1a]')
+          "
         >
-          1</button
-        ><button
-          class="min-w-[44px] h-11 rounded-xl text-sm font-medium transition-all duration-300 bg-[#161616] text-neutral-400 border border-[#262626] hover:border-orange-500/50 hover:text-white"
-          fdprocessedid="yge09"
+          <svg class="w-5 h-5 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            ></path>
+          </svg>
+        </button>
+        <div class="flex items-center gap-1">
+          @for (page of pageNumbers(); track page) {
+            <button
+              (click)="goToPage(page)"
+              [class]="
+                'min-w-[44px] h-11 rounded-xl text-sm font-medium transition-all duration-300' +
+                (currentPage() === page
+                  ? ' bg-linear-to-r from-orange-500 to-orange-600 text-white'
+                  : ' bg-[#161616] text-neutral-400 border border-[#262626] hover:border-orange-500/50 hover:text-white')
+              "
+            >
+              {{ page }}
+            </button>
+          }
+        </div>
+        <button
+          (click)="goToNextPage()"
+          [disabled]="currentPage() === totalPages()"
+          [class]="
+            'p-3 rounded-xl border transition-all duration-300' +
+            (currentPage() === totalPages()
+              ? ' bg-[#0a0a0a] border-[#262626] text-neutral-600 cursor-not-allowed'
+              : ' bg-[#161616] border-[#262626] text-white hover:border-orange-500/50 hover:bg-[#1a1a1a]')
+          "
         >
-          2</button
-        ><button
-          class="min-w-[44px] h-11 rounded-xl text-sm font-medium transition-all duration-300 bg-[#161616] text-neutral-400 border border-[#262626] hover:border-orange-500/50 hover:text-white"
-          fdprocessedid="jjrwtk"
-        >
-          3</button
-        ><button
-          class="min-w-[44px] h-11 rounded-xl text-sm font-medium transition-all duration-300 bg-[#161616] text-neutral-400 border border-[#262626] hover:border-orange-500/50 hover:text-white"
-          fdprocessedid="fez8vc"
-        >
-          4</button
-        ><button
-          class="min-w-[44px] h-11 rounded-xl text-sm font-medium transition-all duration-300 bg-[#161616] text-neutral-400 border border-[#262626] hover:border-orange-500/50 hover:text-white"
-          fdprocessedid="hk3upn"
-        >
-          5
+          <svg class="w-5 h-5 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7"
+            ></path>
+          </svg>
         </button>
       </div>
-      <button
-        class="p-3 rounded-xl border transition-all duration-300 bg-[#161616] border-[#262626] text-white hover:border-orange-500/50 hover:bg-[#1a1a1a]"
-        fdprocessedid="osnzz"
-      >
-        <svg class="w-5 h-5 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 5l7 7-7 7"
-          ></path>
-        </svg>
-      </button>
-    </div>
-    <p class="text-center text-neutral-500 mt-4 text-sm">صفحة 1 من 5</p>
+      <p class="text-center text-neutral-500 mt-4 text-sm">
+        صفحة {{ currentPage() }} من {{ totalPages() }}
+      </p>
+    }
+    @if (filteredPosts().length === 0) {
+      <div class="text-center py-12">
+        <p class="text-neutral-400 text-lg">لا توجد مقالات في هذه الفئة</p>
+      </div>
+    }
   </div>
 </div>

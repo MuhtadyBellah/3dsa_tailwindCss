@@ -1,9 +1,8 @@
 import { SiteInfo } from './../../services/site-info';
 import { Categories } from './../../services/categories';
-import { Component, DestroyRef, inject, Input, input, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { Posts } from '../../services/posts';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -11,59 +10,57 @@ import { RouterLink } from '@angular/router';
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home implements OnInit {
-  featuredPosts: post[] = [];
-  lastestPosts: post[] = [];
+export class Home {
+  private postService = inject(Posts);
+  private destroyRef = inject(DestroyRef);
+  private categoryService = inject(Categories);
+  private siteInfoService = inject(SiteInfo);
 
-  categories: category[] = [];
-  filteredPosts: post[] = [];
-  selectedCategory: string = '';
+  featuredPosts = signal<post[]>([]);
+  lastestPosts = signal<post[]>([]);
+  categories = signal<category[]>([]);
+  siteInfo = signal<siteInfo | null>(null);
 
-  siteInfo: siteInfo | null = null;
-  constructor(
-    private postService: Posts,
-    private destroyRef: DestroyRef,
-    private categoryService: Categories,
-    private siteInfoService: SiteInfo,
-  ) {}
+  constructor() {
+    this.loadPosts();
+    this.loadCategories();
+    this.loadSiteInfo();
+  }
 
-  ngOnInit(): void {
+  private loadPosts(): void {
     this.postService
       .getPosts()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (data) => {
-          this.featuredPosts = data.filter((post) => post.featured);
-          this.lastestPosts = data.filter((post) => !post.featured).slice(0, 3);
+          this.featuredPosts.set(data.filter((post) => post.featured));
+          this.lastestPosts.set(data.filter((post) => !post.featured).slice(0, 3));
         },
         error: (err) => console.error('Failed to load posts', err),
       });
+  }
 
+  private loadCategories(): void {
     this.categoryService
       .getCategories()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (data) => {
-          this.categories = data;
+          this.categories.set(data);
         },
         error: (err) => console.error('Failed to load categories', err),
       });
+  }
 
+  private loadSiteInfo(): void {
     this.siteInfoService
       .getSiteInfo()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (data) => {
-          this.siteInfo = data;
+          this.siteInfo.set(data);
         },
-        error: (err) => console.error(err),
+        error: (err) => console.error('Failed to load site info', err),
       });
-  }
-
-  filterByCategory(category: string): void {
-    this.selectedCategory = category;
-    this.filteredPosts = this.lastestPosts.filter((post) =>
-      post.category.toLowerCase().includes(category.toLowerCase()),
-    );
   }
 }

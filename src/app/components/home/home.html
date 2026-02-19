@@ -134,12 +134,12 @@
       ></a>
     </div>
     <div class="space-y-8">
-      @for (post of featuredPosts; track post.id) {
+      @for (post of featuredPosts(); track post.id) {
         <article
           class="group relative bg-[#161616] rounded-3xl overflow-hidden border border-[#262626] hover:border-orange-500/30 transition-all duration-500"
           style="animation-delay: 0ms"
         >
-          <a class="block" href="/blog/{{ post.slug }}" data-discover="true"
+          <a class="block" [href]="'/blog/' + post.slug" data-discover="true"
             ><div class="grid md:grid-cols-2 gap-0">
               <div class="relative h-72 md:h-[400px] overflow-hidden">
                 <img
@@ -241,57 +241,12 @@
       <p class="section-subtitle max-w-lg mx-auto">اعثر على محتوى مصمم حسب اهتماماتك</p>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-      <a
-        class="group relative block p-6 rounded-2xl bg-[#161616] border border-[#262626] overflow-hidden hover:border-orange-500/30 transition-all duration-500 hover:-translate-y-1"
-        href="/blog?category=إضاءة"
-        data-discover="true"
-        style="animation-delay: 0ms"
-        ><div
-          class="absolute inset-0 bg-linear-to-br from-orange-500 to-yellow-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        ></div>
-        <div class="relative z-10">
-          <div
-            class="w-12 h-12 bg-orange-500/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-white/20 transition-colors duration-300 border border-orange-500/20 group-hover:border-transparent"
-          >
-            <i
-              class="fa-solid fa-sun text-xl text-orange-500 group-hover:text-white transition-colors duration-300"
-            ></i>
-          </div>
-          <h3
-            class="font-bold text-lg text-white group-hover:text-white transition-colors duration-300 mb-1"
-          >
-            إضاءة
-          </h3>
-          <p
-            class="text-sm text-neutral-500 group-hover:text-white/80 transition-colors duration-300"
-          >
-            3 مقالة
-          </p>
-          <div
-            class="absolute top-6 left-6 w-8 h-8 rounded-full bg-[#262626] flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:bg-white/20 transition-all duration-300"
-          >
-            <svg
-              class="w-4 h-4 text-white rotate-180"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 5l7 7-7 7"
-              ></path>
-            </svg>
-          </div></div
-      ></a>
-      @for (cat of categories; track cat.name) {
+      @for (cat of categories(); track cat.name) {
         <a
           class="group relative block p-6 rounded-2xl bg-[#161616] border border-[#262626] overflow-hidden hover:border-orange-500/30 transition-all duration-500 hover:-translate-y-1"
-          href="/blog?category={{ cat.name }}"
+          [href]="'/blog?category=' + cat.name"
           data-discover="true"
           style="animation-delay: 100ms"
-          (click)="filterByCategory(cat.name)"
           ><div
             class="absolute inset-0 bg-linear-to-br from-orange-600 to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
           ></div>
@@ -372,9 +327,9 @@
       ></a>
     </div>
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-      @for (post of lastestPosts; track post.id) {
+      @for (post of lastestPosts(); track post.id) {
         <article class="group card overflow-hidden" style="animation-delay: 0ms">
-          <a class="block" href="/blog/{{ post.slug }}" data-discover="true"
+          <a class="block" [href]="'/blog/' + post.slug" data-discover="true"
             ><div class="relative h-52 overflow-hidden">
               <img
                 alt="{{ post.title }}"
@@ -493,19 +448,19 @@
             <img
               class="w-8 h-8 rounded-full border-2 border-[#161616]"
               alt=""
-              src="{{ siteInfo?.social?.twitter }}"
+              src="{{ siteInfo()?.social?.twitter }}"
             /><img
               class="w-8 h-8 rounded-full border-2 border-[#161616]"
               alt=""
-              src="{{ siteInfo?.social?.github }}"
+              src="{{ siteInfo()?.social?.github }}"
             /><img
               class="w-8 h-8 rounded-full border-2 border-[#161616]"
               alt=""
-              src="{{ siteInfo?.social?.linkedin }}"
+              src="{{ siteInfo()?.social?.linkedin }}"
             /><img
               class="w-8 h-8 rounded-full border-2 border-[#161616]"
               alt=""
-              src="{{ siteInfo?.social?.youtube }}"
+              src="{{ siteInfo()?.social?.youtube }}"
             />
           </div>
           <span>انضم لـ <span class="text-white font-medium">+10,000</span> مصور</span>

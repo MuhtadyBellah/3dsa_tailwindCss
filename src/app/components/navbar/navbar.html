@@ -1,7 +1,7 @@
 <nav
-  [class.scrolled]="isScrolled"
+  [class.scrolled]="isScrolled()"
   class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-[#0a0a0a]/95 backdrop-blur-xl border-b border-transparent"
-  [ngClass]="{ 'bg-[#0a0a0a] border-[#262626]': isScrolled }"
+  [ngClass]="{ 'bg-[#0a0a0a] border-[#262626]': isScrolled() }"
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-20">
@@ -78,7 +78,7 @@
     </div>
     <div
       class="md:hidden overflow-hidden transition-all duration-300"
-      [ngClass]="{ 'max-h-96': mobileMenuOpen, 'max-h-0': !mobileMenuOpen }"
+      [ngClass]="{ 'max-h-96': mobileMenuOpen(), 'max-h-0': !mobileMenuOpen() }"
     >
       <div class="bg-[#161616] backdrop-blur-xl rounded-2xl p-4 border border-[#262626]">
         <div class="flex flex-col space-y-1">

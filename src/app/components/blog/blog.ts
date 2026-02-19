@@ -1,62 +1,154 @@
-import { Component, DestroyRef, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Posts } from '../../services/posts';
 import { Categories } from '../../services/categories';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-blog',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './blog.html',
   styleUrl: './blog.css',
 })
-export class Blog {
-  viewMode: 'grid' | 'list' = 'grid';
+export class Blog implements OnInit {
+  private postService = inject(Posts);
+  private destroyRef = inject(DestroyRef);
+  private categoryService = inject(Categories);
+  private route = inject(ActivatedRoute);
 
-  featuredPosts: post[] = [];
-  filteredPosts: post[] = [];
+  viewMode = signal<'grid' | 'list'>('grid');
+  featuredPosts = signal<post[]>([]);
+  filteredPosts = signal<post[]>([]);
+  categories = signal<category[]>([]);
+  selectedCategory = signal<string>('');
+  currentPage = signal<number>(1);
+  pageSize = signal<number>(6);
+  searchQuery = signal<string>('');
 
-  categories: category[] = [];
-  selectedCategory: string = '';
+  totalPages = computed(() => {
+    const total = this.filteredPosts().length;
+    return Math.ceil(total / this.pageSize()) || 1;
+  });
 
-  siteInfo: siteInfo | null = null;
-  constructor(
-    private postService: Posts,
-    private destroyRef: DestroyRef,
-    private categoryService: Categories,
-  ) {}
+  paginatedPosts = computed(() => {
+    const posts = this.filteredPosts();
+    const pageSize = this.pageSize();
+    const currentPage = this.currentPage();
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    return posts.slice(startIndex, endIndex);
+  });
+
+  pageNumbers = computed(() => {
+    const total = this.totalPages();
+    const pages: number[] = [];
+    for (let i = 1; i <= total; i++) {
+      pages.push(i);
+    }
+    return pages;
+  });
+
+  constructor() {
+    this.loadPosts();
+    this.loadCategories();
+  }
 
   ngOnInit(): void {
+    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
+      if (params['category']) {
+        const decodedCategory = decodeURIComponent(params['category']);
+        this.selectedCategory.set(decodedCategory);
+      } else {
+        this.selectedCategory.set('');
+      }
+
+      if (this.featuredPosts().length > 0) {
+        this.applyFilters();
+      }
+    });
+  }
+
+  private loadPosts(): void {
     this.postService
       .getPosts()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (data) => {
-          this.featuredPosts = data;
-          this.filteredPosts = this.featuredPosts;
+          this.featuredPosts.set(data);
+          this.filteredPosts.set(data);
+          this.currentPage.set(1);
+          this.applyFilters();
         },
         error: (err) => console.error('Failed to load posts', err),
       });
+  }
 
+  private loadCategories(): void {
     this.categoryService
       .getCategories()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (data) => {
-          this.categories = data;
+          this.categories.set(data);
         },
         error: (err) => console.error('Failed to load categories', err),
       });
   }
 
+  onSearchChange(query: string): void {
+    this.searchQuery.set(query);
+    this.applyFilters();
+  }
+
   filterByCategory(category: string): void {
-    this.selectedCategory = category;
-    this.filteredPosts = this.featuredPosts.filter((post) =>
-      post.category.toLowerCase().includes(category.toLowerCase()),
-    );
+    this.selectedCategory.set(category);
+    this.applyFilters();
+  }
+
+  private applyFilters(): void {
+    const category = this.selectedCategory().toLowerCase();
+    const search = this.searchQuery().toLowerCase().trim();
+
+    const filtered = this.featuredPosts().filter((post) => {
+      const matchCategory =
+        category === '' ||
+        category === 'جميع المقالات' ||
+        post.category.toLowerCase().includes(category);
+
+      const matchSearch =
+        search === '' ||
+        post.title.toLowerCase().includes(search) ||
+        post.excerpt.toLowerCase().includes(search);
+
+      return matchCategory && matchSearch;
+    });
+
+    this.filteredPosts.set(filtered);
+    this.currentPage.set(1);
+  }
+
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages()) {
+      this.currentPage.set(page);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  goToNextPage(): void {
+    if (this.currentPage() < this.totalPages()) {
+      this.goToPage(this.currentPage() + 1);
+    }
+  }
+
+  goToPreviousPage(): void {
+    if (this.currentPage() > 1) {
+      this.goToPage(this.currentPage() - 1);
+    }
   }
 
   toggleViewMode(mode: 'grid' | 'list'): void {
-    this.viewMode = mode;
+    this.viewMode.set(mode);
   }
 }
