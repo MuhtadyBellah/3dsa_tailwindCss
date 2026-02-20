@@ -2,6 +2,7 @@ import { Component, DestroyRef, inject, signal, computed, OnInit } from '@angula
 import { CommonModule } from '@angular/common';
 import { Posts } from '../../services/posts';
 import { Categories } from '../../services/categories';
+import { Post, Category } from '../../interfaces/types';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -19,9 +20,9 @@ export class Blog implements OnInit {
   private route = inject(ActivatedRoute);
 
   viewMode = signal<'grid' | 'list'>('grid');
-  featuredPosts = signal<post[]>([]);
-  filteredPosts = signal<post[]>([]);
-  categories = signal<category[]>([]);
+  featuredPosts = signal<Post[]>([]);
+  filteredPosts = signal<Post[]>([]);
+  categories = signal<Category[]>([]);
   selectedCategory = signal<string>('');
   currentPage = signal<number>(1);
   pageSize = signal<number>(6);

@@ -168,42 +168,19 @@
                 <h3 class="font-bold text-white">محتويات المقال</h3>
               </div>
               <nav class="space-y-2">
-                <a
-                  href="#section-0"
-                  class="flex items-center gap-3 p-3 rounded-xl text-neutral-400 hover:text-orange-500 hover:bg-orange-500/5 transition-all duration-300 group"
-                  ><span
-                    class="flex items-center justify-center w-6 h-6 bg-[#1a1a1a] rounded-lg text-xs font-bold text-neutral-500 group-hover:bg-orange-500/10 group-hover:text-orange-500 transition-colors"
-                    >1</span
-                  ><span class="text-sm">لماذا الساعة الذهبية؟</span></a
-                ><a
-                  href="#section-1"
-                  class="flex items-center gap-3 p-3 rounded-xl text-neutral-400 hover:text-orange-500 hover:bg-orange-500/5 transition-all duration-300 group"
-                  ><span
-                    class="flex items-center justify-center w-6 h-6 bg-[#1a1a1a] rounded-lg text-xs font-bold text-neutral-500 group-hover:bg-orange-500/10 group-hover:text-orange-500 transition-colors"
-                    >2</span
-                  ><span class="text-sm">التحضير المسبق</span></a
-                ><a
-                  href="#section-2"
-                  class="flex items-center gap-3 p-3 rounded-xl text-neutral-400 hover:text-orange-500 hover:bg-orange-500/5 transition-all duration-300 group"
-                  ><span
-                    class="flex items-center justify-center w-6 h-6 bg-[#1a1a1a] rounded-lg text-xs font-bold text-neutral-500 group-hover:bg-orange-500/10 group-hover:text-orange-500 transition-colors"
-                    >3</span
-                  ><span class="text-sm">إعدادات الكاميرا</span></a
-                ><a
-                  href="#section-3"
-                  class="flex items-center gap-3 p-3 rounded-xl text-neutral-400 hover:text-orange-500 hover:bg-orange-500/5 transition-all duration-300 group"
-                  ><span
-                    class="flex items-center justify-center w-6 h-6 bg-[#1a1a1a] rounded-lg text-xs font-bold text-neutral-500 group-hover:bg-orange-500/10 group-hover:text-orange-500 transition-colors"
-                    >4</span
-                  ><span class="text-sm">التكوين الفني</span></a
-                ><a
-                  href="#section-4"
-                  class="flex items-center gap-3 p-3 rounded-xl text-neutral-400 hover:text-orange-500 hover:bg-orange-500/5 transition-all duration-300 group"
-                  ><span
-                    class="flex items-center justify-center w-6 h-6 bg-[#1a1a1a] rounded-lg text-xs font-bold text-neutral-500 group-hover:bg-orange-500/10 group-hover:text-orange-500 transition-colors"
-                    >5</span
-                  ><span class="text-sm">الخلاصة</span></a
-                >
+                @for (item of tableOfContents; track item.id; let index = $index) {
+                  <a
+                    [href]="'#' + item.id"
+                    class="flex items-center gap-3 p-3 rounded-xl text-neutral-400 hover:text-orange-500 hover:bg-orange-500/5 transition-all duration-300 group"
+                  >
+                    <span
+                      class="flex items-center justify-center w-6 h-6 bg-[#1a1a1a] rounded-lg text-xs font-bold text-neutral-500 group-hover:bg-orange-500/10 group-hover:text-orange-500 transition-colors"
+                    >
+                      {{ index + 1 }}
+                    </span>
+                    <span class="text-sm">{{ item.title }}</span>
+                  </a>
+                }
               </nav>
             </div>
             <div class="p-6 bg-[#111111] rounded-2xl border border-[#262626]">

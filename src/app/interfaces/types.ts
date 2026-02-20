@@ -1,4 +1,4 @@
-interface post {
+export interface Post {
   id: number;
   slug: string;
   title: string;
@@ -17,13 +17,13 @@ interface post {
   tags: string[];
 }
 
-interface category {
+export interface Category {
   name: string;
   count: string;
   color: string;
 }
 
-interface siteInfo {
+export interface SiteInfo {
   name: string;
   tagline: string;
   description: string;

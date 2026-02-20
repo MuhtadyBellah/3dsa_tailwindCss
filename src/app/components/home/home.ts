@@ -2,6 +2,7 @@ import { SiteInfo } from './../../services/site-info';
 import { Categories } from './../../services/categories';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { Posts } from '../../services/posts';
+import { Post, Category, SiteInfo as SiteInfoInterface } from '../../interfaces/types';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -16,10 +17,10 @@ export class Home {
   private categoryService = inject(Categories);
   private siteInfoService = inject(SiteInfo);
 
-  featuredPosts = signal<post[]>([]);
-  lastestPosts = signal<post[]>([]);
-  categories = signal<category[]>([]);
-  siteInfo = signal<siteInfo | null>(null);
+  featuredPosts = signal<Post[]>([]);
+  lastestPosts = signal<Post[]>([]);
+  categories = signal<Category[]>([]);
+  siteInfo = signal<SiteInfoInterface | null>(null);
 
   constructor() {
     this.loadPosts();

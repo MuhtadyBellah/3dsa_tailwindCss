@@ -1,4 +1,4 @@
-import { Component, signal, effect } from '@angular/core';
+import { Component, signal, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -12,27 +12,21 @@ export class Navbar {
   isScrolled = signal(false);
   mobileMenuOpen = signal(false);
 
-  private scrollListener = this.onScroll.bind(this);
+  private destroyRef = inject(DestroyRef);
 
   constructor() {
     if (typeof window !== 'undefined') {
-      window.addEventListener('scroll', this.scrollListener);
+      const scrollListener = () => {
+        this.isScrolled.set(window.scrollY > 50);
+      };
+
+      window.addEventListener('scroll', scrollListener);
+      this.destroyRef.onDestroy(() => {
+        if (typeof window !== 'undefined') {
+          window.removeEventListener('scroll', scrollListener);
+        }
+      });
     }
-
-    effect(
-      () => {
-        return () => {
-          if (typeof window !== 'undefined') {
-            window.removeEventListener('scroll', this.scrollListener);
-          }
-        };
-      },
-      { allowSignalWrites: true }
-    );
-  }
-
-  private onScroll(): void {
-    this.isScrolled.set(window.scrollY > 50);
   }
 
   toggleMobileMenu(): void {

@@ -17,12 +17,6 @@ export const routes: Routes = [
     title: 'blog',
   },
   {
-    path: 'blog:category',
-    // component: Blog,
-    loadComponent: () => import('./components/blog/blog').then((m) => m.Blog),
-    title: 'blog',
-  },
-  {
     path: 'blog/:slug',
     // component: BlogDetails,
     loadComponent: () =>

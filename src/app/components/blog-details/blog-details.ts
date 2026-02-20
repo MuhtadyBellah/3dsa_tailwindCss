@@ -1,35 +1,30 @@
-import {
-  Component,
-  DestroyRef,
-  inject,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Posts } from '../../services/posts';
+import { Post } from '../../interfaces/types';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap } from 'rxjs';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-blog-details',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './blog-details.html',
   styleUrl: './blog-details.css',
 })
 export class BlogDetails implements OnInit {
-  post: any = null;
-  relatedPosts: post[] = [];
-
-  formattedContent: string = '';
+  post: Post | null = null;
+  relatedPosts: Post[] = [];
+  formattedContent: SafeHtml = '';
   tableOfContents: { id: string; title: string }[] = [];
 
   private postService = inject(Posts);
   private destroyRef = inject(DestroyRef);
   private route = inject(ActivatedRoute);
+  private sanitizer = inject(DomSanitizer);
 
   constructor() {}
+
   ngOnInit(): void {
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       const currentSlug = params.get('slug');
@@ -46,14 +41,16 @@ export class BlogDetails implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (posts) => {
-          this.post = posts.find((p: any) => p.slug === slug);
+          this.post = posts.find((p: Post) => p.slug === slug) || null;
 
           if (this.post) {
             this.relatedPosts = posts
-              .filter((p: any) => p.category === this.post.category && p.id !== this.post.id)
+              .filter((p: Post) => p.category === this.post!.category && p.id !== this.post!.id)
               .slice(0, 3);
 
             this.formattedContent = this.parseContent(this.post.content);
+          } else {
+            console.warn(`Post with slug "${slug}" not found`);
           }
           setTimeout(() => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -63,13 +60,13 @@ export class BlogDetails implements OnInit {
       });
   }
 
-  private parseContent(content: string): string {
+  private parseContent(content: string): SafeHtml {
     if (!content) return '';
 
     this.tableOfContents = [];
     let sectionIndex = 0;
 
-    return content
+    const htmlContent = content
       .split('\n\n')
       .map((paragraph) => {
         if (paragraph.startsWith('## ')) {
@@ -80,12 +77,25 @@ export class BlogDetails implements OnInit {
                   <span class="flex items-center justify-center w-10 h-10 bg-orange-500/10 rounded-xl border border-orange-500/30">
                     <i class="fa-solid fa-camera text-orange-500"></i>
                   </span>
-                  ${headingText}
+                  ${this.escapeHtml(headingText)}
                 </h2>`;
         } else {
-          return `<p class="text-neutral-300 leading-relaxed mb-6 text-lg">${paragraph}</p>`;
+          return `<p class="text-neutral-300 leading-relaxed mb-6 text-lg">${this.escapeHtml(paragraph)}</p>`;
         }
       })
       .join('');
+
+    return this.sanitizer.bypassSecurityTrustHtml(htmlContent);
+  }
+
+  private escapeHtml(text: string): string {
+    const map: { [key: string]: string } = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;',
+    };
+    return text.replace(/[&<>"']/g, (m) => map[m]);
   }
 }
