@@ -12,7 +12,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   templateUrl: './blog-details.html',
   styleUrl: './blog-details.css',
 })
-export class BlogDetails implements OnInit {
+export class BlogDetails {
   post: Post | null = null;
   relatedPosts: Post[] = [];
   formattedContent: SafeHtml = '';
@@ -22,8 +22,6 @@ export class BlogDetails implements OnInit {
   private destroyRef = inject(DestroyRef);
   private route = inject(ActivatedRoute);
   private sanitizer = inject(DomSanitizer);
-
-  constructor() {}
 
   ngOnInit(): void {
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
