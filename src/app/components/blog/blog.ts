@@ -1,11 +1,11 @@
-import { Component, DestroyRef, inject, signal, computed, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Posts } from '../../services/posts';
 import { Categories } from '../../services/categories';
 import { Post, Category } from '../../interfaces/types';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-blog',
@@ -13,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './blog.html',
   styleUrl: './blog.css',
 })
-export class Blog implements OnInit {
+export class Blog {
   private postService = inject(Posts);
   private destroyRef = inject(DestroyRef);
   private categoryService = inject(Categories);
@@ -56,21 +56,6 @@ export class Blog implements OnInit {
     this.loadCategories();
   }
 
-  ngOnInit(): void {
-    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
-      if (params['category']) {
-        const decodedCategory = decodeURIComponent(params['category']);
-        this.selectedCategory.set(decodedCategory);
-      } else {
-        this.selectedCategory.set('');
-      }
-
-      if (this.featuredPosts().length > 0) {
-        this.applyFilters();
-      }
-    });
-  }
-
   private loadPosts(): void {
     this.postService
       .getPosts()
@@ -80,6 +65,7 @@ export class Blog implements OnInit {
           this.featuredPosts.set(data);
           this.filteredPosts.set(data);
           this.currentPage.set(1);
+          this.loadCategoryFromRoute();
           this.applyFilters();
         },
         error: (err) => console.error('Failed to load posts', err),
@@ -96,6 +82,15 @@ export class Blog implements OnInit {
         },
         error: (err) => console.error('Failed to load categories', err),
       });
+  }
+
+  private loadCategoryFromRoute(): void {
+    const category = this.route.snapshot.queryParamMap.get('category');
+    if (category) {
+      this.selectedCategory.set(decodeURIComponent(category));
+    } else {
+      this.selectedCategory.set('');
+    }
   }
 
   onSearchChange(query: string): void {

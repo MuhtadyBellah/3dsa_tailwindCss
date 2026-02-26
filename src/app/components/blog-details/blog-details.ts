@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Posts } from '../../services/posts';
 import { Post } from '../../interfaces/types';
@@ -23,14 +23,9 @@ export class BlogDetails {
   private route = inject(ActivatedRoute);
   private sanitizer = inject(DomSanitizer);
 
-  ngOnInit(): void {
-    this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
-      const currentSlug = params.get('slug');
-
-      if (currentSlug) {
-        this.loadPostData(currentSlug);
-      }
-    });
+  constructor() {
+    const slug = this.route.snapshot.paramMap.get('slug');
+    this.loadPostData(slug || '');
   }
 
   private loadPostData(slug: string): void {
